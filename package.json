@@ -17,5 +17,8 @@
     "app": "./bin/react-build && ./bin/electron-start",
     "test": "./bin/test",
     "build": "./bin/react-build && node ./bin/electron-package.js"
-  }
+  },
+  "version": "1.0.0",
+  "repository": "https://github.com/RStankov/FocusedTask.git",
+  "author": "<thomasjhanna@gmail.com>"
 }
