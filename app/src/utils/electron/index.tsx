@@ -71,8 +71,8 @@ export async function writeTaskToFile(store: IStoreState) {
 
   try {
     await fs.writeFile(filePath, exportTask(store));
-  } catch (e) {
-    alert(`An error occurred while writing the file: ${e.message}`);
+  } catch (e: any) {
+    alert(`An error occurred while writing the file: ${e?.message}`);
   }
 }
 
@@ -96,8 +96,8 @@ export async function readTaskFromFile() {
     const data = await fs.readFile(filePath, 'utf-8');
 
     return importTask(data);
-  } catch (e) {
-    alert(`An error occurred while reading the file: ${e.message}`);
+  } catch (e: any) {
+    alert(`An error occurred while reading the file: ${e?.message}`);
   }
 
   return null;

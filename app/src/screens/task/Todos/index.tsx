@@ -9,6 +9,7 @@ import useDispatch from 'hooks/useDispatch';
 import useSelector from 'hooks/useSelector';
 import TodoCheckbox from './Checkbox';
 import AddButton from 'components/AddButton';
+import CurrentTaskCheckbox from './CurrentTaskCheckbox';
 
 import { getTodos } from 'modules/selectors';
 
@@ -31,34 +32,40 @@ export default function TaskTodos() {
       <Sortable.List
         useDragHandle={true}
         onSort={({ oldIndex, newIndex }) => {
-          const oldIndexBroughtInRange = Math.min(oldIndex, todos.length - 1)
+          const oldIndexBroughtInRange = Math.min(oldIndex, todos.length - 1);
 
           dispatch(
             moveTodo({
               id: todos[oldIndexBroughtInRange].id,
               by: newIndex - oldIndexBroughtInRange,
-            }),
-            )
-          }
-        }>
+            })
+          );
+        }}
+      >
         {todos.map((todo, i) => (
           <Sortable.Item
             index={i}
             align="start"
             gap="m"
             key={todo.id}
-            style={{ marginLeft: 28 * (todo.ident || 0) }}
             onClick={(e: any) => {
               if (e.metaKey) {
                 e.preventDefault();
                 e.stopPropagation();
                 dispatch(toggleTodo(todo));
               }
-            }}>
-            <TodoCheckbox
+            }}
+          >
+            <CurrentTaskCheckbox
               isChecked={todo.isCompleted}
               onClick={() => dispatch(toggleTodo(todo))}
             />
+            <div style={{ marginLeft: 28 * (todo.ident || 0) + 5 }}>
+              <TodoCheckbox
+                isChecked={todo.isCompleted}
+                onClick={() => dispatch(toggleTodo(todo))}
+              />
+            </div>
             <Input
               id={`todo-text-${i}`}
               value={todo.text}
@@ -69,7 +76,7 @@ export default function TaskTodos() {
                     updateTodoText({
                       id: todo.id,
                       text,
-                    }),
+                    })
                   );
                 }
               }}

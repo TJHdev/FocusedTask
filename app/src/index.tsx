@@ -16,5 +16,5 @@ ReactDOM.render(
       <Screen />
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root'),
+  document.getElementById('root')
 );

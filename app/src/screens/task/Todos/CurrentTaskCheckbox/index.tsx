@@ -1,11 +1,13 @@
 import * as React from 'react';
 import styles from './styles.module.css';
+import icon from 'assets/icon.png';
+
 interface IProps {
   isChecked: boolean;
   onClick: () => void;
 }
 
-export default function TodoCheckbox({ isChecked, onClick }: IProps) {
+export default function CurrentTaskCheckbox({ isChecked, onClick }: IProps) {
   function handleClick(e: React.SyntheticEvent<any>) {
     e.stopPropagation();
     onClick();
@@ -19,7 +21,7 @@ export default function TodoCheckbox({ isChecked, onClick }: IProps) {
         className={styles.checked}
         onClick={handleClick}
       >
-        ✅
+        <img className={styles.image} src={icon}></img>
       </span>
     );
   }

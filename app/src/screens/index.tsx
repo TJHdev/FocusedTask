@@ -9,6 +9,14 @@ export default function App() {
   useTheme();
   useShortcuts();
 
+  React.useEffect(() => {
+    window.addEventListener('blur', () => {
+      console.log('blurred');
+    });
+
+    return () => {};
+  }, []);
+
   const selectedScreen: IScreens = useSelector(getSelectedScreen);
   const Screen = Screens[selectedScreen];
 
