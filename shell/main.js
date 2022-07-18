@@ -28,6 +28,7 @@ const mb = menubar({
       nodeIntegration: true,
       scrollBounce: true,
     },
+    alwaysOnTop: true,
   },
 });
 
@@ -66,6 +67,18 @@ mb.app.on('web-contents-created', (e, contents) => {
 
 electron.ipcMain.on('resize', function (_e, width, height) {
   mb.window.setSize(width, height);
+});
+
+// electron.ipcMain.addEventListener("blur", () => {
+//   console.log("something blurred");
+// });
+
+mb.app.on('browser-window-blur', () => {
+  // console.log("browser-window-blur");
+  // mb.window.alert("something blurred");
+  // if (mainWindow) {
+  //   mainWindow.webContents.send("projectMsg", { event: "blur" });
+  // }
 });
 
 electron.ipcMain.on('updateGlobalShortcutKey', function (_e, key) {
