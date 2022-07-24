@@ -20,6 +20,16 @@ export function getTodos(store: IStoreState) {
   return getSelectedTask(store).todos || [];
 }
 
+export function getCurrentTodoId(store: IStoreState) {
+  return getSelectedTask(store).currentTodo;
+}
+
+export function getCurrentTodo(store: IStoreState) {
+  const todos = getTodos(store);
+  const currentTodoId = getCurrentTodoId(store);
+  return todos.find(({ id }) => id === currentTodoId);
+}
+
 export function getBookmarks(store: IStoreState) {
   return getSelectedTask(store).bookmarks || [];
 }
@@ -33,5 +43,5 @@ export function getSelectedTaskId(store: IStoreState) {
 }
 
 export function getTheme(store: IStoreState) {
-  return store.preferences.theme
+  return store.preferences.theme;
 }

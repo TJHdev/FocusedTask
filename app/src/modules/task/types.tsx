@@ -14,6 +14,7 @@ export interface IBookmark {
 export interface ITask {
   id: string;
   title: string;
+  currentTodo?: string;
   todos: ITodo[];
   bookmarks: IBookmark[];
   note: string;

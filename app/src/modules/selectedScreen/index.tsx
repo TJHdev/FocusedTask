@@ -7,11 +7,11 @@ export const slice = createSlice({
   name: 'selectedScreen',
   initialState,
   reducers: {
-    openTask: () => 'task' as 'task',
-    openShortcuts: () => 'shortcuts' as 'shortcuts',
-    openPreferences: () => 'preferences' as 'preferences',
-    openChangelog: () => 'changelog' as 'changelog',
-    openAbout: () => 'about' as 'about',
+    openTask: () => 'task' as const,
+    openShortcuts: () => 'shortcuts' as const,
+    openPreferences: () => 'preferences' as const,
+    openChangelog: () => 'changelog' as const,
+    openAbout: () => 'about' as const,
   },
 });
 

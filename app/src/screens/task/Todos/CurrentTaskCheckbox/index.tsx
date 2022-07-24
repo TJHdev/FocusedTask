@@ -17,11 +17,11 @@ export default function CurrentTaskCheckbox({ isChecked, onClick }: IProps) {
     return (
       <span
         role="img"
-        aria-label="completed"
+        aria-label="current-task"
         className={styles.checked}
         onClick={handleClick}
       >
-        <img className={styles.image} src={icon}></img>
+        <img alt="current-task" className={styles.image} src={icon}></img>
       </span>
     );
   }

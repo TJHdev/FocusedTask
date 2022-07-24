@@ -11,19 +11,21 @@ import TodoCheckbox from './Checkbox';
 import AddButton from 'components/AddButton';
 import CurrentTaskCheckbox from './CurrentTaskCheckbox';
 
-import { getTodos } from 'modules/selectors';
+import { getCurrentTodoId, getTodos } from 'modules/selectors';
 
 import {
   moveTodo,
   newTodo,
   pasteTasks,
   removeTodo,
-  toggleTodo,
+  toggleCompletedTodo,
+  toggleCurrentTodo,
   updateTodoIdent,
   updateTodoText,
 } from 'modules/task';
 
 export default function TaskTodos() {
+  const currentTodo = useSelector(getCurrentTodoId);
   const todos = useSelector(getTodos);
   const dispatch = useDispatch();
 
@@ -38,7 +40,7 @@ export default function TaskTodos() {
             moveTodo({
               id: todos[oldIndexBroughtInRange].id,
               by: newIndex - oldIndexBroughtInRange,
-            })
+            }),
           );
         }}
       >
@@ -52,18 +54,18 @@ export default function TaskTodos() {
               if (e.metaKey) {
                 e.preventDefault();
                 e.stopPropagation();
-                dispatch(toggleTodo(todo));
+                dispatch(toggleCompletedTodo(todo));
               }
             }}
           >
             <CurrentTaskCheckbox
-              isChecked={todo.isCompleted}
-              onClick={() => dispatch(toggleTodo(todo))}
+              isChecked={todo.id === currentTodo}
+              onClick={() => dispatch(toggleCurrentTodo(todo))}
             />
             <div style={{ marginLeft: 28 * (todo.ident || 0) + 5 }}>
               <TodoCheckbox
                 isChecked={todo.isCompleted}
-                onClick={() => dispatch(toggleTodo(todo))}
+                onClick={() => dispatch(toggleCompletedTodo(todo))}
               />
             </div>
             <Input
@@ -76,7 +78,7 @@ export default function TaskTodos() {
                     updateTodoText({
                       id: todo.id,
                       text,
-                    })
+                    }),
                   );
                 }
               }}
@@ -112,7 +114,7 @@ export default function TaskTodos() {
                   e.shiftKey &&
                   e.keyCode === keyCodes.c
                 ) {
-                  dispatch(toggleTodo(todo));
+                  dispatch(toggleCompletedTodo(todo));
                 }
               }}
             />

@@ -18,7 +18,7 @@ interface IAction {
 
 export default function tasksReducer(
   state: IState | undefined,
-  action: IAction,
+  action: IAction
 ): IState {
   if (state === undefined) {
     state = ACTION_HANDLERS['tasks/new'](state);

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as types from './types';
 import generateId from 'utils/generateId';
 
@@ -21,6 +21,7 @@ export type IBookmark = types.IBookmark;
 const INITIAL_STATE = {
   id: generateId('task'),
   title: 'Focus',
+  currentTodo: undefined,
   todos: [],
   bookmarks: [],
   note: '',
@@ -45,7 +46,10 @@ export const slice = createSlice({
 
       insertAfter(state.todos, after, createTodo({ after }));
     },
-    pasteTasks: (state, { payload }) => {
+    pasteTasks: (
+      state,
+      { payload }: PayloadAction<{ id: string; clipboard: string }>,
+    ) => {
       paste(
         state.todos,
         payload,
@@ -53,7 +57,15 @@ export const slice = createSlice({
         (after, text) => createTodo({ after, text }),
       );
     },
-    toggleTodo: (state, { payload }) => {
+    toggleCurrentTodo: (state, { payload }: PayloadAction<ITodo>) => {
+      if (state.currentTodo !== payload.id) {
+        state.currentTodo = payload.id;
+      } else {
+        state.currentTodo = undefined;
+      }
+    },
+
+    toggleCompletedTodo: (state, { payload }: PayloadAction<ITodo>) => {
       const index = findIndex(state.todos, payload);
 
       if (index === -1) {
@@ -85,7 +97,10 @@ export const slice = createSlice({
         }
       }
     },
-    updateTodoIdent: (state, { payload }) => {
+    updateTodoIdent: (
+      state,
+      { payload }: PayloadAction<{ id: string; by: number }>,
+    ) => {
       const todo = find(state.todos, payload);
       todo.ident = Math.max(0, todo.ident + payload.by);
     },
@@ -94,17 +109,21 @@ export const slice = createSlice({
         const todo = find(state.todos, payload);
         todo.text = payload.text;
       } else {
-        state.todos = state.todos.filter(t => t.id !== payload.id);
+        state.todos = state.todos.filter((t) => t.id !== payload.id);
       }
     },
-    removeTodo: (state, { payload }) => {
-      state.todos = state.todos.filter(todo => todo.id !== payload.id);
+    removeTodo: (state, { payload }: PayloadAction<{ id: string }>) => {
+      state.todos = state.todos.filter((todo) => todo.id !== payload.id);
     },
-    moveTodo: (state, { payload }) => {
+    moveTodo: (
+      state,
+      // { payload }: PayloadAction<{ id: string; by: string }>,
+      { payload },
+    ) => {
       move(state.todos, payload, payload.by);
     },
-    removeCompletedTodos: state => {
-      state.todos = state.todos.filter(todo => !todo.isCompleted);
+    removeCompletedTodos: (state) => {
+      state.todos = state.todos.filter((todo) => !todo.isCompleted);
     },
     newBookmark: (
       state,
@@ -116,13 +135,16 @@ export const slice = createSlice({
       state,
       { payload = { uris: [] } }: IOptionalPayload<{ uris: string[] }>,
     ) => {
-      payload.uris.forEach(uri => {
+      payload.uris.forEach((uri) => {
         if (uri) {
           insertAfter(state.bookmarks, undefined, createBookmark({ uri }));
         }
       });
     },
-    pasteBookmarks: (state, { payload }) => {
+    pasteBookmarks: (
+      state,
+      { payload }: PayloadAction<{ id: string; clipboard: string }>,
+    ) => {
       paste(
         state.bookmarks,
         payload,
@@ -130,23 +152,30 @@ export const slice = createSlice({
         (_, text) => createBookmark({ uri: text }),
       );
     },
-    updateBookmark: (state, { payload }) => {
+    updateBookmark: (
+      state,
+      { payload }: PayloadAction<{ id: string; uri: string }>,
+    ) => {
       if (payload.uri) {
         const bookmark = find(state.bookmarks, payload);
         bookmark.uri = payload.uri;
       } else {
-        state.bookmarks = state.bookmarks.filter(b => b.id !== payload.id);
+        state.bookmarks = state.bookmarks.filter((b) => b.id !== payload.id);
       }
     },
-    removeBookmark: (state, { payload }) => {
+    removeBookmark: (state, { payload }: PayloadAction<IBookmark>) => {
       state.bookmarks = state.bookmarks.filter(
-        bookmark => bookmark.id !== payload.id,
+        (bookmark) => bookmark.id !== payload.id,
       );
     },
-    moveBookmark: (state, { payload }) => {
+    moveBookmark: (
+      state,
+      // { payload }: PayloadAction<{ id: string; by: number }>,
+      { payload },
+    ) => {
       move(state.bookmarks, payload, payload.by);
     },
-    updateNote: (state, { payload }) => {
+    updateNote: (state, { payload }: PayloadAction<string>) => {
       state.note = payload;
     },
   },
@@ -158,7 +187,8 @@ export const {
   newTodo,
   pasteTasks,
   updateNote,
-  toggleTodo,
+  toggleCurrentTodo,
+  toggleCompletedTodo,
   updateTodoText,
   updateTodoIdent,
   removeTodo,
