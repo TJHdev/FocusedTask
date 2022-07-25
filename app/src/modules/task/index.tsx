@@ -112,7 +112,7 @@ export const slice = createSlice({
         state.todos = state.todos.filter((t) => t.id !== payload.id);
       }
     },
-    removeTodo: (state, { payload }: PayloadAction<{ id: string }>) => {
+    removeTodo: (state, { payload }: PayloadAction<ITodo>) => {
       state.todos = state.todos.filter((todo) => todo.id !== payload.id);
     },
     moveTodo: (

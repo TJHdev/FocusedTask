@@ -27,15 +27,15 @@ export function resizeBasedOnContent() {
     return;
   }
 
-  const bodyStyle = window.getComputedStyle(document.body) as any;
-  const padding =
-    parseInt(bodyStyle['margin-top'], 10) +
-    parseInt(bodyStyle['margin-bottom'], 10) +
-    parseInt(bodyStyle['padding-top'], 10) +
-    parseInt(bodyStyle['padding-bottom'], 10);
+  // const bodyStyle = window.getComputedStyle(document.body) as any;
+  // const padding =
+  //   parseInt(bodyStyle['margin-top'], 10) +
+  //   parseInt(bodyStyle['margin-bottom'], 10) +
+  //   parseInt(bodyStyle['padding-top'], 10) +
+  //   parseInt(bodyStyle['padding-bottom'], 10);
 
   const observer = new ResizeObserver(() => {
-    const height = Math.min(900, document.body.offsetHeight + padding);
+    const height = Math.min(document.body.offsetHeight);
 
     const bounds = electron.remote
       .getCurrentWindow()

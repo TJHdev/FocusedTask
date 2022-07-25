@@ -8,6 +8,7 @@ import TaskNote from './Note';
 import AppMenu from 'components/AppMenu';
 import useDragAndDropFiles from 'hooks/useDragAndDropFiles';
 import DragFileMessage from './DragFileMessage';
+import Minimise from 'components/Minimize';
 
 export default function Task() {
   const isDraggingFile = useDragAndDropFiles();
@@ -15,9 +16,26 @@ export default function Task() {
   return (
     <>
       {isDraggingFile && <DragFileMessage />}
-      <AppMenu />
+
       <Stack.Column gap="xl">
-        <TaskTitle />
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <TaskTitle />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Minimise />
+            <AppMenu />
+          </div>
+        </div>
         <Section emoji="🔜" title="Todos">
           <TaskTodos />
         </Section>

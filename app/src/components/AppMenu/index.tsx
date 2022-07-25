@@ -47,12 +47,14 @@ function openAppMenu() {
     },
     {
       label: 'Open',
-      submenu: (allTask.map(task => ({
-        label: task.title,
-        type: 'checkbox',
-        checked: task.id === selectedTask.id,
-        click: () => store.dispatch(selectTask(task)),
-      })) as IMenuItem[]).concat([
+      submenu: (
+        allTask.map((task) => ({
+          label: task.title,
+          type: 'checkbox',
+          checked: task.id === selectedTask.id,
+          click: () => store.dispatch(selectTask(task)),
+        })) as IMenuItem[]
+      ).concat([
         {
           type: 'separator',
         },

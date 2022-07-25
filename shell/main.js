@@ -22,7 +22,6 @@ const mb = menubar({
     height: 600,
     minWidth: 300,
     maxHeight: 900,
-    minHeight: 600,
     backgroundColor: '#FAFAFA',
     webPreferences: {
       nodeIntegration: true,
@@ -68,10 +67,6 @@ mb.app.on('web-contents-created', (e, contents) => {
 electron.ipcMain.on('resize', function (_e, width, height) {
   mb.window.setSize(width, height);
 });
-
-// electron.ipcMain.addEventListener("blur", () => {
-//   console.log("something blurred");
-// });
 
 mb.app.on('browser-window-blur', () => {
   // console.log("browser-window-blur");

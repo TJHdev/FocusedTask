@@ -12,6 +12,7 @@ export const slice = createSlice({
     openPreferences: () => 'preferences' as const,
     openChangelog: () => 'changelog' as const,
     openAbout: () => 'about' as const,
+    openCurrentTodo: () => 'currentTodo' as const,
   },
 });
 
@@ -21,6 +22,7 @@ export const {
   openAbout,
   openPreferences,
   openChangelog,
+  openCurrentTodo,
 } = slice.actions;
 
 export default slice.reducer;

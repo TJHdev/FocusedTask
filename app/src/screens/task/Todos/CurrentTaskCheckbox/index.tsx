@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './styles.module.css';
-import icon from 'assets/icon.png';
+import icon from 'icons/current.png';
 
 interface IProps {
   isChecked: boolean;
