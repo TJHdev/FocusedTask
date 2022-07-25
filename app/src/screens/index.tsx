@@ -7,7 +7,7 @@ import useShortcuts from 'hooks/useShortcuts';
 import useTheme from 'hooks/useTheme';
 import { useDispatch } from 'react-redux';
 import { openCurrentTodo } from 'modules/selectedScreen';
-import { openTask } from 'modules/selectedScreen';
+// import { openTask } from 'modules/selectedScreen';
 
 export default function App() {
   useTheme();
@@ -33,7 +33,7 @@ export default function App() {
 
     const focusHandler = () => {
       console.log('is focusing');
-      dispatch(openTask());
+      // dispatch(openTask());
     };
 
     window.addEventListener('blur', blurHandler);
@@ -48,7 +48,9 @@ export default function App() {
   return (
     <div
       style={
-        isCurrentTodo ? { padding: '2px 7px' } : { padding: '15px 20px 20px' }
+        isCurrentTodo
+          ? { lineHeight: '15px', padding: '0px 7px' }
+          : { padding: '15px 20px 20px' }
       }
     >
       <Screen />

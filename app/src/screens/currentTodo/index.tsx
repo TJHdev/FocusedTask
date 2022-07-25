@@ -17,7 +17,7 @@ export default function CurrentTodo() {
 
   return (
     <div style={{ display: 'flex' }}>
-      <strong>{currentTodo.text}</strong>
+      <strong style={{ fontSize: '12px' }}>{currentTodo.text}</strong>
     </div>
   );
 }
