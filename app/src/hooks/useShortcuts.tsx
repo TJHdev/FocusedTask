@@ -4,7 +4,7 @@ import focusOn, { focusOnTodoWithIndex } from 'utils/focusOn';
 import keyCodes from 'utils/keyCodes';
 import useEventListener from 'hooks/useEventListener';
 import {
-  getGlobalShortcutKey,
+  // getGlobalShortcutKey,
   // hideApp,
   taskSwitchSubscribe,
 } from 'utils/electron';
@@ -17,7 +17,7 @@ import {
   getSelectedScreen,
   getBookmarks,
   getTodos,
-  getCurrentTodo,
+  // getCurrentTodo,
 } from 'modules/selectors';
 import { undo, redo, nextTask } from 'modules/actions';
 import {
@@ -31,10 +31,6 @@ export default function useShortcuts() {
   const bookmarks = useSelector(getBookmarks);
   const todos = useSelector(getTodos);
   const selectedScreen = useSelector(getSelectedScreen);
-  const currentTodo = useSelector(getCurrentTodo);
-
-  const openCloseShortCut = getGlobalShortcutKey();
-  console.log('openCloseShortCut', openCloseShortCut);
 
   React.useEffect(() => {
     return taskSwitchSubscribe(() => {
@@ -43,14 +39,9 @@ export default function useShortcuts() {
   }, [dispatch]);
 
   useEventListener('keydown', (e) => {
-    console.log('keyDown', e.keyCode);
-    if (selectedScreen !== 'task') {
+    if (selectedScreen !== 'task' && selectedScreen !== 'currentTodo') {
       if (e.keyCode === keyCodes.esc) {
         dispatch(openTask());
-      } else if (e.metaKey && e.keyCode === keyCodes["'"]) {
-        if (currentTodo) {
-          dispatch(openTask());
-        }
       }
     } else if (selectedScreen === 'task') {
       if (e.metaKey && e.shiftKey && e.keyCode === keyCodes.t) {
@@ -64,8 +55,6 @@ export default function useShortcuts() {
         dispatch(newTodo());
       } else if (e.metaKey && e.keyCode === keyCodes.b) {
         dispatch(newBookmark());
-        // } else if (e.metaKey && e.keyCode === keyCodes["'"]) {
-        //   dispatch(openCurrentTodo());
       } else if (e.metaKey && e.keyCode === keyCodes.n) {
         focusOn('note-text');
       } else if (e.metaKey && e.keyCode === keyCodes.e) {
@@ -93,10 +82,7 @@ export default function useShortcuts() {
       } else if (e.metaKey && e.keyCode === keyCodes['0']) {
         openBookmark(bookmarks[bookmarks.length - 1]);
       } else if (e.keyCode === keyCodes.esc && !isInput(e)) {
-        // if (selectedScreen === 'task') {
-        // hideApp();
         dispatch(openCurrentTodo());
-        // }
       } else if (e.metaKey && e.keyCode === keyCodes.z) {
         if (!isInput(e)) {
           if (e.shiftKey) {

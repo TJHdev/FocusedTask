@@ -39,14 +39,8 @@ module.exports = {
     global.globalShortcutKey = key;
 
     electron.globalShortcut.register(`CommandOrControl+${key}`, () => {
-      if (menubar.window && menubar.window.isVisible()) {
-        console.log('hiding window');
-        // console.log('window', menubar.window);
-        menubar.hideWindow();
-      } else {
-        console.log('showing window');
-        menubar.showWindow();
-      }
+      const win = menubar.window;
+      win.webContents.send('global-shortcut');
     });
   },
 

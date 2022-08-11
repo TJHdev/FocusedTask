@@ -8,7 +8,6 @@ import TaskNote from './Note';
 import AppMenu from 'components/AppMenu';
 import useDragAndDropFiles from 'hooks/useDragAndDropFiles';
 import DragFileMessage from './DragFileMessage';
-import Minimise from 'components/Minimize';
 
 export default function Task() {
   const isDraggingFile = useDragAndDropFiles();
@@ -32,7 +31,6 @@ export default function Task() {
               justifyContent: 'flex-end',
             }}
           >
-            <Minimise />
             <AppMenu />
           </div>
         </div>

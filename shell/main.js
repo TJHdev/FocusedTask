@@ -17,6 +17,7 @@ const mb = menubar({
       slashes: true,
     }),
   icon: path.join(__dirname, 'assets/MenuBarIconTemplate.png'),
+  // preloadWindow: true,
   browserWindow: {
     width: 500,
     height: 600,
@@ -31,13 +32,39 @@ const mb = menubar({
   },
 });
 
+// setTimeout(() => {
+//   mb.showWindow();
+// }, 2000);
+
 mb.on('after-create-window', () => {
   settings.trackWindowBounds(mb);
 });
 
+// mb.app.on('will-finish-launching', () => {
+//   console.log('will-finish-launching');
+//   mb.showWindow();
+// });
+
 mb.app.on('ready', () => {
+  console.log('Ready');
   settings.setWindowBounds(mb);
   settings.setGlobalShortcut(mb);
+
+  // mb.showWindow();
+
+  const map = {};
+  const attemptToShowWindow = () => {
+    console.log('trying to open window');
+    if (mb.showWindow) {
+      mb.showWindow();
+      clearInterval(map.interval);
+    }
+  };
+  map.interval = setInterval(attemptToShowWindow, 200);
+
+  setInterval(() => {
+    // mb.showWindow();
+  }, 2000);
 
   if (!isDev) {
     autoUpdate();
@@ -51,6 +78,7 @@ mb.app.on('will-quit', () => {
 mb.app.allowRendererProcessReuse = false;
 
 mb.app.on('web-contents-created', (e, contents) => {
+  console.log('testzzz');
   const openExternal = (e, url) => {
     e.preventDefault();
     electron.shell.openExternal(url);
@@ -68,12 +96,11 @@ electron.ipcMain.on('resize', function (_e, width, height) {
   mb.window.setSize(width, height);
 });
 
-mb.app.on('browser-window-blur', () => {
-  // console.log("browser-window-blur");
-  // mb.window.alert("something blurred");
-  // if (mainWindow) {
-  //   mainWindow.webContents.send("projectMsg", { event: "blur" });
-  // }
+electron.ipcMain.on('show-window', () => {
+  mb.showWindow();
+});
+electron.ipcMain.on('hide-window', () => {
+  mb.hideWindow();
 });
 
 electron.ipcMain.on('updateGlobalShortcutKey', function (_e, key) {
